@@ -35,7 +35,7 @@ fi
 
 if [ "${auth_method}" = "AppRole" ]; then
     login_approle ${role_id} ${secret_id}
-if [ "${auth_method}" = "github" ]; then
+elif [ "${auth_method}" = "github" ]; then
     login_github ${github_pat}
 else
     login_aws_ec2 ${role} ${nonce}
