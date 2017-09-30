@@ -21,6 +21,16 @@ login_approle() {
     echo -n "${token}" > ~/.vault-token
 }
 
+login_github() {
+    github_personal_access_token="$1"
+    token=$(vault auth -format=json -method=github token=${github_personal_access_token} -token-only)
+    if [ -z "${token}" ]; then
+        echo "ERROR: No token retrieved"
+    return 1
+    fi
+    echo -n "${token}" > ~/.vault-token
+}
+
 get_secret() {
     vault read -format=json ${1} | jq -r '.data'
 }
