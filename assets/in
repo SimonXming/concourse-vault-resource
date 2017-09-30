@@ -19,9 +19,11 @@ auth_method=$(jq -r '.source.auth_method // "aws_ec2"' < $payload)
 # Used for AWS EC2 authentication
 role=$(jq -r '.source.role // "concourse"' < $payload)
 nonce=$(jq -r '.source.nonce // "vault-concourse-nonce"' < $payload)
-# Used for AWS EC2 authentication
+# Used for AppRole authentication
 role_id=$(jq -r '.source.role_id // ""' < $payload)
 secret_id=$(jq -r '.source.secret_id // ""' < $payload)
+# Used of GitHub authentication
+github_pat=$(jq -r '.source.github_personal_access_token // ""' < $payload)
 
 echo "INFO: Reading secrets from: ${paths[*]}"
 
@@ -33,6 +35,8 @@ fi
 
 if [ "${auth_method}" = "AppRole" ]; then
     login_approle ${role_id} ${secret_id}
+if [ "${auth_method}" = "github" ]; then
+    login_github ${github_pat}
 else
     login_aws_ec2 ${role} ${nonce}
 fi
