@@ -23,7 +23,7 @@ login_approle() {
 
 login_github() {
     github_personal_access_token="$1"
-    token=$(vault auth -method=github token=${github_personal_access_token} -token-only)
+    token=$(vault auth -method=github -token-only token=${github_personal_access_token})
     if [ -z "${token}" ]; then
         echo "ERROR: No token retrieved"
     return 1
