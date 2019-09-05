@@ -9,12 +9,10 @@ It can also use the [AppRole method](https://www.vaultproject.io/docs/auth/appro
 
 * `url`: *Optional.* The location of the Vault server. Defaults to `https://vault.service.consul:8200`.
 
-* `role`: *Optional.* The role to authenticate as. Defaults to `concourse`.
-
-* `nonce`: *Optional.* Client nonce whitelisted by Vault for this EC2 auth. Defaults to `vault-concourse-nonce`, which should probably be changed.
-
 * `paths`: *Optional.* If specified (as a list of glob patterns), only changes
   to the specified files will yield new versions from `check`.
+
+* `token`: *Optional.* Use a Token to authenticate. This parameter is used only with `auth_method: Token`.
 
 * `expose_token`: *Optional.* If specified, this option will expose the token to make it available to other resources
 
@@ -24,14 +22,14 @@ It can also use the [AppRole method](https://www.vaultproject.io/docs/auth/appro
 
 * `secret_id`: *Optional.* Use a specific secret id to authenticate. This parameter is used only with `auth_method: AppRole`.
 
-* `github_personal_access_token`: *Optional.* Use a GitHub personal access token to authenticate. This parameter is used only with `auth_method: github`.
+* `github_personal_access_token`: *Optional.* Use a GitHub personal access token to authenticate. This parameter is used only with `auth_method: GitHub`.
 
 * `tls_skip_verify`: *Optional.* Skips Vault SSL verification by exporting
   `VAUKT_SKIP_VERIFY=1`.
 
 ### Example
 
-Resource configuration using aws-ec2 authentication:
+Resource configuration using Token authentication:
 
 ``` yaml
 resources:
@@ -39,8 +37,8 @@ resources:
   type: vault
   source:
     url: https://secure.legitcompany.com:8200
-    role: build-server
-    nonce: cantguessme
+    auth_method: Token
+    token: xxxxxxxxxxxx
 ```
 
 Resource configuration using AppRole authentication:

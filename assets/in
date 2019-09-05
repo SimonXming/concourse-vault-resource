@@ -15,10 +15,9 @@ url=$(jq -r '.source.url // "https://vault.service.consul:8200"' < $payload)
 skip_verify=$(jq -r '.source.tls_skip_verify // ""' < $payload)
 expose_token=$(jq -r '.source.expose_token // ""' < $payload)
 paths=($(jq -r '.params.paths // [] | .[]' < $payload))
-auth_method=$(jq -r '.source.auth_method // "aws_ec2"' < $payload)
-# Used for AWS EC2 authentication
-role=$(jq -r '.source.role // "concourse"' < $payload)
-nonce=$(jq -r '.source.nonce // "vault-concourse-nonce"' < $payload)
+auth_method=$(jq -r '.source.auth_method // "Token"' < $payload)
+# Used of Token authentication
+token=$(jq -r '.source.token // ""' < $payload)
 # Used for AppRole authentication
 role_id=$(jq -r '.source.role_id // ""' < $payload)
 secret_id=$(jq -r '.source.secret_id // ""' < $payload)
@@ -35,10 +34,12 @@ fi
 
 if [ "${auth_method}" = "AppRole" ]; then
     login_approle ${role_id} ${secret_id}
-elif [ "${auth_method}" = "github" ]; then
+elif [ "${auth_method}" = "GitHub" ]; then
     login_github ${github_pat}
+elif [ "${auth_method}" = "Token" ]; then
+    login_token ${token}
 else
-    login_aws_ec2 ${role} ${nonce}
+    login_token ${token}
 fi
 
 for path in "${paths[@]}"; do
