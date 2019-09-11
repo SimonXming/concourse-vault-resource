@@ -2,7 +2,7 @@
 
 # Vault Resource
 
-Reads secrets from [Vault](https://www.vaultproject.io/). Authentication is done (by default) using the [aws-ec2 method](https://www.vaultproject.io/docs/auth/aws-ec2.html), which must be configured before using this resource.
+Reads secrets from [Vault](https://www.vaultproject.io/). Authentication is done (by default) using the [Token method](https://www.vaultproject.io/docs/auth/token.html), which must be configured before using this resource.
 It can also use the [AppRole method](https://www.vaultproject.io/docs/auth/approle.html) to authenticate.
 
 ## Source Configuration
@@ -16,7 +16,7 @@ It can also use the [AppRole method](https://www.vaultproject.io/docs/auth/appro
 
 * `expose_token`: *Optional.* If specified, this option will expose the token to make it available to other resources
 
-* `auth_method`: *Optional.* By default will use the `aws-ec2` method. If `AppRole` is specified, it will read the `role_id` and `secret_id` parameter to authenticate on the approle endpoint. If `github` is specified it will read the `github_personal_access_token` parameter.
+* `auth_method`: *Optional.* By default will use the `Token` method. If `AppRole` is specified, it will read the `role_id` and `secret_id` parameter to authenticate on the approle endpoint. If `github` is specified it will read the `github_personal_access_token` parameter.
 
 * `role_id`: *Optional.* Use a specific role id to authenticate. This parameter is used only with `auth_method: AppRole`.
 
